@@ -76,12 +76,8 @@ WSGI_APPLICATION = 'FCMusic.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'fcmusic_db',
-        'USER': 'postgres',
-        'PASSWORD': 'Chiaki98',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -126,8 +122,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTHENTICATION_BACKENDS=['social_core.backends.google.GoogleOAuth2']
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY='305738368960-m4pbroobhmcboo75crh1aldq9atidv9p.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET='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'
