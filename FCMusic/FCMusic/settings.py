@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'sitio.apps.SitioConfig',
     'sitio',
     'django.contrib.admin',
     'django.contrib.auth',
