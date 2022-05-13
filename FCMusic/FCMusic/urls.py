@@ -19,6 +19,6 @@ from sitio import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('escuchar/', views.hola),
+    path('escuchar/', views.escuchar),
     path('cancion/', views.getCancion)
 ]

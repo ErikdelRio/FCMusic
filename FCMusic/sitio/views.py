@@ -5,8 +5,7 @@ from .models import Cancion
 import json
 
 # Create your views here.
-def hola(request):
-    # return HttpResponse("Hola Mundo")
+def escuchar(request):
     return render(request, 'cancion/escuchar.html')
 
 def getCancion(request):
