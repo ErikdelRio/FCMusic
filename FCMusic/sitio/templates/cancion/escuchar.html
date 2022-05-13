@@ -27,8 +27,12 @@
 
       <div class="d-flex flex-fill justify-contents my-4 p-2">
         <div class="flex-grow-1"></div>
+        <div class="d-flex flex-grow-1 align-items-center">
+          <div id="atras" class="btn bg-light p-2 mx-2 controles">⏮️</div>
           <audio controls id="cancion_source" class="d-flex flex-fill  flex-grow-1">
           </audio>
+          <div id="siguiente" class="btn bg-light p-2 mx-2 controles"> ⏭️ </div>
+        </div>
         <div class="flex-grow-1"></div>
       </div>
     </div>
@@ -54,6 +58,8 @@
     }
 
 
+    var listaRep = [];
+    var cancion_i = 0;
     function escuchar(arch) {
       const audiox = cancion_source;
       var urlObj = URL.createObjectURL(arch)
@@ -68,7 +74,20 @@
 
     selectorCancion.addEventListener('change', (evento) => {
       var archivos = evento.target.files;
-      escuchar(archivos[0])
-    })
+      listaRep = archivos;
+      escuchar(listaRep[0])
+    });
+
+    siguiente.addEventListener('click', (ev) => {
+      cancion_i = (cancion_i + 1) % listaRep.length;
+      escuchar(listaRep[cancion_i]);
+    });
+    atras.addEventListener('click', (ev) => {
+      cancion_i = cancion_i - 1;
+      if(cancion_i == -1) {
+        cancion_i = listaRep.length - 1;
+      }
+      escuchar(listaRep[cancion_i]);
+    });
   </script>
 </html>
