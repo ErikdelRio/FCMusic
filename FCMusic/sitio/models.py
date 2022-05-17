@@ -31,6 +31,8 @@ class Cancion(models.Model):
     n_vistas = models.IntegerField()
     duracion = models.DurationField()
 
+    def __str__(self):
+        return self.titulo
     # class Meta:
     #     db_table = "Cancion"
 
@@ -40,8 +42,9 @@ class Usuario(models.Model):
     nombre = models.CharField(max_length = 30)
     correo = models.EmailField()
 
+    es_duenio = models.ManyToManyField(Cancion, related_name = "es_duenio")
     artista_seguido = models.ManyToManyField(Artista)
-    me_gusta = models.ManyToManyField(Cancion)
+    me_gusta = models.ManyToManyField(Cancion, related_name = "me_gusta")
     estrellas = models.ManyToManyField(
         Cancion,
         related_name = "estrellas",
@@ -50,6 +53,9 @@ class Usuario(models.Model):
         Cancion,
         related_name = "escuchadas_reciente",
         through="Escuchado_reciente")
+
+    def __str__(self):
+        return self.nombre
 
 
 class Cancion_estrella(models.Model):

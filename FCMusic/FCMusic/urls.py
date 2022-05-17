@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from sitio import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('escuchar/', views.escuchar),
+    path('cancion/', views.getCancion),
+    path('creaLista/', views.creaLista),
 
     # For google.
     path('accounts/', include('allauth.urls')),
 ]
+
