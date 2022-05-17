@@ -20,3 +20,6 @@ def getCancion(request):
     }
     return HttpResponse(json.dumps(canciones))
     # return render(request, json.dumps(canciones))
+
+def creaLista(request):
+    return render(request, 'cancion/creaLista.html')

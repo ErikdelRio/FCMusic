@@ -1,9 +1,12 @@
-
-
 .obscuro {
   background-color: #000;
 }
 
 .controles {
   font-size: 1.30em;
+}
+
+
+.cancion_elem:hover {
+  cursor: grab;
 }

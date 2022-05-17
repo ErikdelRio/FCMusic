@@ -75,13 +75,16 @@
     selectorCancion.addEventListener('change', (evento) => {
       var archivos = evento.target.files;
       listaRep = archivos;
-      escuchar(listaRep[0])
+      escuchar(listaRep[0]);
     });
 
-    siguiente.addEventListener('click', (ev) => {
+    function siguienteCancion(ev) {
       cancion_i = (cancion_i + 1) % listaRep.length;
       escuchar(listaRep[cancion_i]);
-    });
+    }
+
+    siguiente.addEventListener('click', siguienteCancion);
+    cancion_source.addEventListener('ended', siguienteCancion);
     atras.addEventListener('click', (ev) => {
       cancion_i = cancion_i - 1;
       if(cancion_i == -1) {
@@ -89,5 +92,10 @@
       }
       escuchar(listaRep[cancion_i]);
     });
+
+    function barajear(arr) {
+      var copia = [...arr];
+      return copia.sort(() => Math.random() - 0.5 );
+    }
   </script>
 </html>
