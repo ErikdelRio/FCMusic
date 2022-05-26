@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Cancion
+from .models import Cancion,Lista_reproduccion
 import json
 
 # Create your views here.
@@ -23,3 +23,18 @@ def getCancion(request):
 
 def creaLista(request):
     return render(request, 'cancion/creaLista.html')
+
+def home(request):
+    listas = Lista_reproduccion \
+        .objects \
+        .filter(usuario_id=request.user.id)
+
+    return render(request, 'home.html', {'listas': listas})
+
+def escucharLista(request):
+    listas = Lista_reproduccion \
+        .objects \
+        .filter(usuario_id=request.user.id) \
+        .selectRelated('Cancion')
+
+    return render(request, 'cancion/escuchar.html')

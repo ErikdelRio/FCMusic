@@ -5,22 +5,40 @@
     <meta charset="utf-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link type="text/css" href="{% static 'main.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'creaLista.css' %}" rel="stylesheet">
     <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
   </head>
   <body class="obscuro text-light p-5">
     {% include 'cancion/navbar.html' %}
 
-    <div id="drop_cancion" class="d-flex flex-column">
-      <div class="cancion_elem" draggable="true"> Div 1
-        <span class="iconify" data-icon="fa-solid:grip-lines"></span>
+    <div id="busqueda_envoltorio">
+      <div class="d-flex align-items-center">
+        <input id="busqueda" type="search" class="form-control rounded" placeholder="Búsqueda"/>
       </div>
-      <div class="cancion_elem" draggable="true"> Div 2 </div>
-      <div class="cancion_elem" draggable="true"> Div 3 </div>
-      <div class="cancion_elem" draggable="true"> Div 4 </div>
-      <div class="cancion_elem" draggable="true"> Div 5</div>
+      <div id="busqueda_btn" class="text-info fs-2 input-group-text bg-secondary border-0 mx-2 btn">
+        <span class="iconify" data-icon="akar-icons:search"></span>
+      </div>
+
+      <div id="resBusqueda">
+      </div>
     </div>
 
-    <input id="enviar" type="button" name="enviar" class="btn btn-primary" value="Enviar">
+    <div id="drop_cancion" class="d-flex flex-column">
+      {% for texto in "12345"|make_list %}
+        <div class="d-flex flex-row justify-content-between cancion_elem border border-info rounded m-1 p-1" draggable="true">
+          <div class="mr-2"> <span class="iconify" data-icon="akar-icons:drag-vertical"></span> </div>
+          <div class="flex-grow-1"> Div {{ texto }} </div>
+          <div class="flex-grow-1"> Autor </div>
+        </div>
+      {% endfor %}
+      <!-- <div class="cancion_elem" draggable="true"> Div 2 </div> -->
+      <!-- <div class="cancion_elem" draggable="true"> Div 3 </div> -->
+      <!-- <div class="cancion_elem" draggable="true"> Div 4 </div> -->
+      <!-- <div class="cancion_elem" draggable="true"> Div 5</div> -->
+    </div>
+
+    <input id="enviar" type="button" name="enviar" class="btn btn-primary" value="Crear">
+  {% csrf_token %}
   </body>
 
   <script>
@@ -35,24 +53,27 @@
     var curr;
     for (let cancion of canciones) {
       cancion.ondragstart = (evt) => {
-        // document.body.style.cursor='none';
-        // evt.target.style.cursor = "copyMove";
-        // evt.dataTransfer.effectAllowed = "copyMove";
         curr = cancion;
         curr.classList.add("bg-success");
       };
 
       cancion.ondragenter = (evt) => {
         evt.preventDefault();
-        // evt.dataTransfer.dropEffect = "copy";
         swap(curr, cancion);
+        cancion.classList.remove("cancion_elem_hover");
       };
 
-      // cancion.ondragleave = (evt) => { evt.preventDefault(); };
       cancion.ondragover = (evt) => { evt.preventDefault(); };
 
       cancion.ondragend = (evt) => {
         curr.classList.remove("bg-success");
+      }
+
+      cancion.onmouseenter = (evt) => {
+        cancion.classList.add("cancion_elem_hover");
+      }
+      cancion.onmouseleave = (evt) => {
+        cancion.classList.remove("cancion_elem_hover");
       }
     }
 
@@ -62,5 +83,37 @@
         console.log(c.innerText);
       }
     });
+
+
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    busqueda_btn.addEventListener("click", async (evt) => {
+      var cancion_txt = busqueda.value;
+      let body = {
+        titulo: 'mi_titulo'
+      };
+
+      let response = await fetch('/cancion/', {
+        'method': 'POST',
+        'body': JSON.stringify(body),
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      });
+      let text = await response.text();
+      let res = JSON.parse(text);
+      console.log(res);
+
+      resBusqueda.innerHtml = "";
+      for(cancion of res["canciones"]) {
+        var cancion_elem = crea_cancion(cancion);
+        resBusqueda.append(cancion_elem);
+      }
+
+    });
+
+    function crea_cancion(info) {
+
+    }
   </script>
+
 </html>
