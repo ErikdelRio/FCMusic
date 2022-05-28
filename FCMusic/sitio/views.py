@@ -3,6 +3,7 @@ from django.http import HttpResponse
 
 from .models import Cancion,Lista_reproduccion,Cancion_lista_reproduccion
 import json
+from django.core import serializers
 
 # Create your views here.
 def parseRequest(req):
@@ -10,12 +11,13 @@ def parseRequest(req):
     body = json.loads(body_unicode)
     return body
 
-    
+
 def home(request):
     listas = Lista_reproduccion \
         .objects \
         .filter(usuario_id=request.user.id)
 
+    # json_res = serializers.serialize('json', listas)
     return render(request, 'home.html', {'listas': listas})
 
 def escuchar(request):
@@ -28,11 +30,8 @@ def getCancion(request):
     titulo_req = body['titulo']
     result = list(Cancion.objects.filter(titulo__icontains=titulo_req))
 
-    canciones = {
-        "canciones": result
-    }
-    return HttpResponse(json.dumps(canciones))
-    # return render(request, json.dumps(canciones))
+    json_res = serializers.serialize('json', result)
+    return HttpResponse(json_res)
 
 def getCancionesLista(request):
     body_unicode = request.body
@@ -45,14 +44,9 @@ def getCancionesLista(request):
         .selectRelated('Cancion')
 
     return list(res)
-    # return render(request, )
 
 def escucharLista(request):
     lista = getCancionesLista(request)
-    # listas = Lista_reproduccion \
-    #    .objects \
-    #    .filter(usuario_id=request.user.id) \
-    #    .selectRelated('Cancion')
 
     return render(request, 'cancion/escuchar.html', {'lista': lista})
 
@@ -67,11 +61,13 @@ def putLista(request):
     nuevaLista.nombre = body['nombre']
     nuevaLista.save()
 
-    i = 0
+    i = 1
     for c in body['canciones']:
         nuevaCancionLista = Cancion_lista_reproduccion()
+        nuevaCancionLista.lista_id = nuevaLista.id
         nuevaCancionLista.cancion_id = c.cancion_id
         nuevaCancionLista.indice = i
         nuevaCancionLista.save()
-    
+        i+=1
+
     return HttpResponseRedirect('/home')

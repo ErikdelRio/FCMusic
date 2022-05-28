@@ -18,18 +18,18 @@ class Genero(models.Model):
 
 class Cancion(models.Model):
 
-    cancion_id = models.IntegerField(primary_key = True)
-    artista_id = models.ForeignKey(Artista, on_delete = models.CASCADE)
-    album_id = models.ForeignKey(Album, on_delete = models.CASCADE)
+    # cancion_id = models.IntegerField(primary_key = True)
+    artista_id = models.ForeignKey(Artista, on_delete = models.CASCADE, null=True)
+    album_id = models.ForeignKey(Album, on_delete = models.CASCADE, null=True)
 
     genero = models.ManyToManyField(Genero)
 
     titulo = models.CharField(max_length = 30)
     titulo_estilo = models.CharField(max_length = 30)
     ruta = models.CharField(max_length = 50)
-    año_lanzamiento = models.IntegerField()
-    n_vistas = models.IntegerField()
-    duracion = models.DurationField()
+    año_lanzamiento = models.IntegerField(null=True)
+    n_vistas = models.IntegerField(default=0)
+    duracion = models.DurationField(null=True)
 
     def __str__(self):
         return self.titulo
@@ -71,9 +71,9 @@ class Escuchado_reciente(models.Model):
 
 
 class Lista_reproduccion(models.Model):
-    lista_id = models.IntegerField(primary_key = True)
+    # lista_id = models.IntegerField(primary_key = True)
     usuario_id = models.IntegerField()
-    estado_publico = models.BinaryField()
+    estado_publico = models.BooleanField()
     nombre = models.CharField(max_length = 30)
 
 

@@ -3,7 +3,9 @@
 <html lang="es" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <link type="text/css" href="{% static 'main.css' %}" rel="stylesheet">
     <link type="text/css" href="{% static 'creaLista.css' %}" rel="stylesheet">
     <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
@@ -19,39 +21,47 @@
         <span class="iconify" data-icon="akar-icons:search"></span>
       </div>
 
-      <div id="resBusqueda">
+      <div id="resBusqueda" class="d-flex">
       </div>
     </div>
 
+    <div> <input id = "nombreCancion" type="text" class="form-control rounded m-2" placeholder="Nombre de la lista"> </div>
     <div id="drop_cancion" class="d-flex flex-column">
-      {% for texto in "12345"|make_list %}
-        <div class="d-flex flex-row justify-content-between cancion_elem border border-info rounded m-1 p-1" draggable="true">
-          <div class="mr-2"> <span class="iconify" data-icon="akar-icons:drag-vertical"></span> </div>
-          <div class="flex-grow-1"> Div {{ texto }} </div>
-          <div class="flex-grow-1"> Autor </div>
-        </div>
-      {% endfor %}
+      {# for texto in "12345"|make_list #}
+        <!-- <div class="d-flex flex-row justify-content-between cancion_elem border border-info rounded m-1 p-1" draggable="true"> -->
+          <!-- <div class="mr-2"> <span class="iconify" data-icon="akar-icons:drag-vertical"></span> </div> -->
+          <!-- <div class="flex-grow-1"> Div {{ texto }} </div> -->
+          <!-- <div class="flex-grow-1"> Autor </div> -->
+        <!-- </div> -->
+      {# endfor #}
       <!-- <div class="cancion_elem" draggable="true"> Div 2 </div> -->
       <!-- <div class="cancion_elem" draggable="true"> Div 3 </div> -->
       <!-- <div class="cancion_elem" draggable="true"> Div 4 </div> -->
       <!-- <div class="cancion_elem" draggable="true"> Div 5</div> -->
     </div>
 
+    <div class="form-check form-switch mt-2">
+      <input class="form-check-input" type="checkbox" id="estadoPublico" checked>
+      <label class="form-check-label" for="estadoPublico">Estado Público</label>
+    </div>
     <input id="enviar" type="button" name="enviar" class="btn btn-primary" value="Crear">
   {% csrf_token %}
   </body>
 
   <script>
     function swap(elem1, elem2) {
-        var siguiente = elem1.nextSibling;
-        elem2.parentNode.insertBefore(elem1, elem2);
-        siguiente.parentNode.insertBefore(elem2, siguiente);
+        if(elem1.nextSibling == elem2) {
+          elem2.parentNode.insertBefore(elem2, elem1);
+        } else {
+          elem1.parentNode.insertBefore(elem1, elem2);
+        }
     }
 
-    var canciones = document.querySelectorAll(".cancion_elem");
 
     var curr;
-    for (let cancion of canciones) {
+    function addDraggable(cancion) {
+      // var canciones = document.querySelectorAll(".cancion_elem");
+      // for (let cancion of canciones) {
       cancion.ondragstart = (evt) => {
         curr = cancion;
         curr.classList.add("bg-success");
@@ -75,13 +85,34 @@
       cancion.onmouseleave = (evt) => {
         cancion.classList.remove("cancion_elem_hover");
       }
+      // }
+
     }
 
-    enviar.addEventListener("click", (evt) => {
+    enviar.addEventListener("click", async (evt) => {
       var canciones = document.querySelectorAll(".cancion_elem");
+      var lista = [];
+      // var i = 1;
       for (c of canciones) {
-        console.log(c.innerText);
+        lista.push({
+          cancion_id: c.pk,
+          // indice: i
+        });
+        // i++;
       }
+      var body = {
+        estado: estadoPublico.checked,
+        nombre: nombreCancion.value,
+        canciones: lista
+      };
+
+      let response = await fetch('/putLista/', {
+        'method': 'POST',
+        'body': JSON.stringify(body),
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      });
     });
 
 
@@ -89,7 +120,7 @@
     busqueda_btn.addEventListener("click", async (evt) => {
       var cancion_txt = busqueda.value;
       let body = {
-        titulo: 'mi_titulo'
+        titulo: cancion_txt
       };
 
       let response = await fetch('/cancion/', {
@@ -101,18 +132,53 @@
       });
       let text = await response.text();
       let res = JSON.parse(text);
-      console.log(res);
 
-      resBusqueda.innerHtml = "";
-      for(cancion of res["canciones"]) {
-        var cancion_elem = crea_cancion(cancion);
+      resBusqueda.innerHTML = "";
+      if(res.length == 0) {
+        resBusqueda.innerText = "No se encontraron canciones";
+        return;
+      }
+      for(cancion of res) {
+        normaliza_cancion(cancion);
+        var cancion_elem = crea_cancion_temp(cancion);
         resBusqueda.append(cancion_elem);
       }
 
     });
 
-    function crea_cancion(info) {
+    function crea_cancion_temp(cancion) {
+      var nuevo = document.createElement("div");
+      nuevo.classList.add('bg-info');
+      nuevo.classList.add('m-1','p-1', 'text-dark', 'rounded');
+      nuevo.innerText = cancion.fields.titulo_estilo;
+      nuevo.addEventListener('click', ev=> {
+        var nueva_cancion = crea_cancion_lista(cancion);
+        drop_cancion.append(nueva_cancion);
+      });
+      return nuevo;
+    }
 
+    function crea_cancion_lista(c) {
+      var nueva_cancion = document.createElement('div');
+      nueva_cancion.classList.add("d-flex", "flex-row", "justify-content-between", "cancion_elem", "border", "border-info", "rounded", "m-1", "p-1");
+      nueva_cancion.setAttribute("draggable", true);
+      nueva_cancion.innerHTML = `
+        <div class="mr-2"> <span class="iconify" data-icon="akar-icons:drag-vertical"></span> </div>
+        <div class="flex-grow-1"> ${c.fields.titulo_estilo}  </div>
+        <div class="flex-grow-1"> ${c.fields.autor} </div>
+      `;
+      nueva_cancion.pk = c.pk;
+      // console.log(c.pk);
+      addDraggable(nueva_cancion);
+      return nueva_cancion;
+      // <div class="d-flex flex-row justify-content-between cancion_elem border border-info rounded m-1 p-1" draggable="true">
+      // </div>
+    }
+
+    function normaliza_cancion(c) {
+      if (typeof c.fields.atuor == "undefined") {
+        c.fields.autor = "Sin autor";
+      }
     }
   </script>
 
