@@ -23,9 +23,11 @@ urlpatterns = [
     path('home/', views.home),
     path('escuchar/', views.escuchar),
     path('creaLista/', views.creaLista),
-    path('putLista/', views.putLista),
 
-    path('cancion/', views.getCancion)
+    # Api
+    path('cancion/', views.getCancion),
+    path('putLista/', views.putLista),
+    path('getListasBD/', views.getListas)
 ]
 
 handler400 = 'sitio.views.error400'

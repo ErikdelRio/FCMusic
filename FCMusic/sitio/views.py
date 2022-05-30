@@ -25,6 +25,14 @@ def getCancionesLista(request):
 
     return list(res)
 
+def getListasBD(request):
+    listas = Lista_reproduccion \
+        .objects \
+        .filter(usuario_id=request.user.id)
+
+    json_res = serializers.serialize('json', list(listas))
+    return json_res
+
 # Obtiene las canciones a partir de su nombre
 # Regresa una respuesta en json con la lista de las canciones encontradas
 def getCancion(request):
@@ -36,11 +44,13 @@ def getCancion(request):
     json_res = serializers.serialize('json', result)
     return HttpResponse(json_res)
 
+def getListas(request):
+    listas = getListasBD(request)
+    return HttpResponse(listas)
+
 
 def home(request):
-    listas = Lista_reproduccion \
-        .objects \
-        .filter(usuario_id=request.user.id)
+    listas = getListasBD(request)
 
     # json_res = serializers.serialize('json', listas)
     return render(request, 'home.html', {'listas': listas})

@@ -92,13 +92,10 @@
     enviar.addEventListener("click", async (evt) => {
       var canciones = document.querySelectorAll(".cancion_elem");
       var lista = [];
-      // var i = 1;
       for (c of canciones) {
         lista.push({
           cancion_id: c.pk,
-          // indice: i
         });
-        // i++;
       }
       var body = {
         estado: estadoPublico.checked,
@@ -146,6 +143,7 @@
 
     });
 
+    // Cra un elemento con la canción para seleccionar si es la que se buscaba
     function crea_cancion_temp(cancion) {
       var nuevo = document.createElement("div");
       nuevo.classList.add('bg-info');
@@ -158,6 +156,7 @@
       return nuevo;
     }
 
+    // Crea un elemento con la canción para ordenar
     function crea_cancion_lista(c) {
       var nueva_cancion = document.createElement('div');
       nueva_cancion.classList.add("d-flex", "flex-row", "justify-content-between", "cancion_elem", "border", "border-info", "rounded", "m-1", "p-1");
@@ -168,8 +167,16 @@
         <div class="flex-grow-1"> ${c.fields.autor} </div>
       `;
       nueva_cancion.pk = c.pk;
-      // console.log(c.pk);
       addDraggable(nueva_cancion);
+
+      var btn = document.createElement('button');
+      btn.innerText = "-";
+      btn.classList.add("rounded", "p-1", "m-1");
+      nueva_cancion.addEventListener("click", (evt)=>{
+        evt.target.parentNode.remove();
+      });
+
+      nueva_cancion.append(btn);
       return nueva_cancion;
       // <div class="d-flex flex-row justify-content-between cancion_elem border border-info rounded m-1 p-1" draggable="true">
       // </div>
