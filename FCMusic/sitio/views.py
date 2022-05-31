@@ -5,6 +5,7 @@ from .models import Cancion,Lista_reproduccion,Cancion_lista_reproduccion
 import json
 from django.core import serializers
 from social_django.models import UserSocialAuth
+from .Minero.minero import conecta_drive
 
 # Create your views here.
 # Obtiene el body de la petición, y regresa un objeto a partir del json obtenido
@@ -96,6 +97,15 @@ def putLista(request):
         i+=1
 
     return HttpResponseRedirect('/home')
+
+def index(request):
+	return render(request, 'cancion/index.html')
+
+def drive(request):
+	canciones = conecta_drive()
+	for cancion in canciones:
+		print(cancion)
+	return HttpResponse({status, "success"})
 
 
 # Errores

@@ -34,9 +34,13 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
 	# path('accounts/profile/', RedirectView.as_view(pattern_name='homepage', permanent=False)),
-    path('accounts/profile/', views.profile),
+    # path('accounts/profile/', views.profile),
 
-    path('muestra_usuarios',views.muestra_usuarios),
+    path('muestra_usuarios/',views.muestra_usuarios),
+
+	path('', views.index),
+
+	path('drive/', views.drive),
 ]
 
 handler400 = 'sitio.views.error400'
