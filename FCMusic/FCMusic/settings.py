@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-z2%9cehe5_fc=vov8$gj7*3a5r=mhy1pre7t-e=9dr&l%6u63t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,8 +83,8 @@ DATABASES = {
         'NAME': 'fcmusic_db',
         'USER': 'postgres',
         #'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
