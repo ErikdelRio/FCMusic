@@ -16,14 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from sitio import views
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('escuchar/', views.escuchar),
+    path('escuchar/', views.escuchar,  name='homepage'),
     path('cancion/', views.getCancion),
     path('creaLista/', views.creaLista),
 
     # For google.
     path('accounts/', include('allauth.urls')),
+
+	# path('accounts/profile/', RedirectView.as_view(pattern_name='homepage', permanent=False)),
+    path('accounts/profile/', views.profile),
+
+    path('muestra_usuarios',views.muestra_usuarios),
 ]
 

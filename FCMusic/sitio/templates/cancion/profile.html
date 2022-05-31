@@ -1,0 +1,255 @@
+<html>
+<head>
+  <meta name="google-signin-client_id" content="68237285342-ogirm8i4grqcivjedd55n050uldf7rl9.apps.googleusercontent.com">
+</head>
+<body>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script>
+    function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    }
+    function onFailure(error) {
+      console.log(error);
+    }
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+	function onSignIn(googleUser) {
+		var profile = googleUser.getBasicProfile();
+		console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		console.log('Name: ' + profile.getName());
+		console.log('Image URL: ' + profile.getImageUrl());
+		console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	}
+  </script>
+
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+  	<!-- <a href="#" onclick="signOut();">Sign out</a>
+	<script>
+	function signOut() {
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function () {
+		console.log('User signed out.');
+		});
+	}
+	</script> -->
+
+</body>
+</html>
+
+
+<!-- {% load static %}
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<meta name="google-signin-client_id" content="68237285342-ogirm8i4grqcivjedd55n050uldf7rl9.apps.googleusercontent.com">
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<a href="#" onclick="signOut();">Sign out</a>
+
+  <script src="https://apis.google.com/js/platform.js" async defer>
+
+	console.log('Hola mundo');
+
+	function onSignIn(googleUser) {
+	var profile = googleUser.getBasicProfile();
+	console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+	console.log('Name: ' + profile.getName());
+	console.log('Image URL: ' + profile.getImageUrl());
+	console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	}
+
+	function signOut() {
+			var auth2 = gapi.auth2.getAuthInstance();
+			auth2.signOut().then(function () {
+			console.log('User signed out.');
+			});
+		}
+  </script>
+ -->
+
+
+
+
+	<!-- <script src="https://apis.google.com/js/platform.js?onload=init" async defer>
+		init();
+		if (auth2.isSignedIn.get()) {
+			var profile = auth2.currentUser.get().getBasicProfile();
+			console.log('ID: ' + profile.getId());
+			console.log('Full Name: ' + profile.getName());
+			console.log('Given Name: ' + profile.getGivenName());
+			console.log('Family Name: ' + profile.getFamilyName());
+			console.log('Image URL: ' + profile.getImageUrl());
+			console.log('Email: ' + profile.getEmail());
+		}
+
+		function init() {
+		  gapi.load('auth2', function() {
+			/* Ready. Make a call to gapi.auth2.init or some other API */
+			
+		  });
+		}
+
+		function onSignIn(googleUser) {
+		  var profile = googleUser.getBasicProfile();
+		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		  console.log('Name: ' + profile.getName());
+		  console.log('Image URL: ' + profile.getImageUrl());
+		  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+		}
+
+		function signOut() {
+			var auth2 = gapi.auth2.getAuthInstance();
+			auth2.signOut().then(function () {
+				console.log('User signed out.');
+			});
+		}
+
+    </script> -->
+
+	<!-- <form>
+		<input id="change_button" type="button" value="Change" onClick="alert('smth');"/>
+	</form>
+	
+
+	<p><button onclick="printAbout()">Click Me</button></p>
+	<p><button onclick="hola()">Hola</button></p> -->
+
+	<!-- <p><button type="button" id="galletitas">Galletas</button></p>
+
+	<script type="text/javascript">
+
+		document.getElementById("galletitas").addEventListener("click", verGalletas);
+
+		function getCookie(cname) {
+		let name = cname + "=";
+		let decodedCookie = decodeURIComponent(document.cookie);
+		let ca = decodedCookie.split(';');
+		for(let i = 0; i <ca.length; i++) {
+			let c = ca[i];
+			while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+			}
+		}
+		return "";
+		}
+
+		function onSignIn(googleUser) {
+			console.log('User is' + JSON.stringify(googleUser.getBasicProfile()));
+		}
+
+		function delay(time) {
+			return new Promise(resolve => setTimeout(resolve, time));
+		}
+		
+
+		function verGalletas() {
+			const user_id = JSON.parse(document.getElementById('user_id').textContent);
+			alert( user_id );
+		}
+		
+	</script> -->
+
+	<!-- <script>
+		var GoogleAuth;
+		var SCOPE = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+		function handleClientLoad() {
+		  // Load the API's client and auth2 modules.
+		  // Call the initClient function after the modules load.
+		  gapi.load('client:auth2', initClient);
+		}
+	  
+		function initClient() {
+		  // In practice, your app can retrieve one or more discovery documents.
+		  var discoveryUrl = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+	  
+		  // Initialize the gapi.client object, which app uses to make API requests.
+		  // Get API key and client ID from API Console.
+		  // 'scope' field specifies space-delimited list of access scopes.
+		  gapi.client.init({
+			  'apiKey': 'proyecto-de-ingenieria-348205',
+			  'clientId': '68237285342-ogirm8i4grqcivjedd55n050uldf7rl9.apps.googleusercontent.com',
+			  'discoveryDocs': [discoveryUrl],
+			  'scope': SCOPE
+		  }).then(function () {
+			GoogleAuth = gapi.auth2.getAuthInstance();
+	  
+			// Listen for sign-in state changes.
+			GoogleAuth.isSignedIn.listen(updateSigninStatus);
+	  
+			// Handle initial sign-in state. (Determine if user is already signed in.)
+			var user = GoogleAuth.currentUser.get();
+			setSigninStatus();
+	  
+			// Call handleAuthClick function when user clicks on
+			//      "Sign In/Authorize" button.
+			$('#sign-in-or-out-button').click(function() {
+			  handleAuthClick();
+			});
+			$('#revoke-access-button').click(function() {
+			  revokeAccess();
+			});
+		  });
+		}
+
+		function handleAuthClick() {
+		  if (GoogleAuth.isSignedIn.get()) {
+			// User is authorized and has clicked "Sign out" button.
+			GoogleAuth.signOut();
+		  } else {
+			// User is not signed in. Start Google auth flow.
+			GoogleAuth.signIn();
+		  }
+		}
+
+		function revokeAccess() {
+		  GoogleAuth.disconnect();
+		}
+
+		function setSigninStatus() {
+		  var user = GoogleAuth.currentUser.get();
+		  var isAuthorized = user.hasGrantedScopes(SCOPE);
+		  if (isAuthorized) {
+			$('#sign-in-or-out-button').html('Sign out');
+			$('#revoke-access-button').css('display', 'inline-block');
+			$('#auth-status').html('You are currently signed in and have granted ' +
+				'access to this app.');
+		  } else {
+			$('#sign-in-or-out-button').html('Sign In/Authorize');
+			$('#revoke-access-button').css('display', 'none');
+			$('#auth-status').html('You have not authorized this app or you are ' +
+				'signed out.');
+		  }
+		}
+
+		function updateSigninStatus() {
+		  setSigninStatus();
+		}
+	  </script>
+	  
+	  <button id="sign-in-or-out-button"
+			  style="margin-left: 25px">Sign In/Authorize</button>
+	  <button id="revoke-access-button"
+			  style="display: none; margin-left: 25px">Revoke access</button>
+
+	  <div id="auth-status" style="display: inline; padding-left: 25px"></div><hr>
+
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	  <script async defer src="https://apis.google.com/js/api.js"
+			  onload="this.onload=function(){};handleClientLoad()"
+			  onreadystatechange="if (this.readyState === 'complete') this.onload()">
+	  </script> -->
+
+<!-- 
+</html> -->

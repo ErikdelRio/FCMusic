@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
 from .models import Cancion
 import json
+from social_django.models import UserSocialAuth
 
 # Create your views here.
 def escuchar(request):
@@ -23,3 +23,13 @@ def getCancion(request):
 
 def creaLista(request):
     return render(request, 'cancion/creaLista.html')
+
+def profile(request):
+	return render(request, 'cancion/profile.html')
+
+def muestra_usuarios(request):
+    # select_related for performance.
+    google_logins = UserSocialAuth.objects.select_related("user").filter(provider="google-oauth2")
+    for google_login in google_logins:
+        print(google_login.user.pk, google_login.user.email)
+    return HttpResponse("""<html><script>window.location.replace('/');</script></html>""")
