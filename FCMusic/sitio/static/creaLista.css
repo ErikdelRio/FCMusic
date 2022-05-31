@@ -1,0 +1,6 @@
+#busqueda_envoltorio {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  padding: 1.5em;
+}

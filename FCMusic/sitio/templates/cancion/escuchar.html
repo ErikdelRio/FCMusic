@@ -57,12 +57,18 @@
       console.log(text);
     }
 
-
     async function conectaDrive(metadata) {
 
     }
 
 
+
+    {% if lista is None %}
+    var lista_metadata = []
+    {% else %}
+    var lista_metadata = {{ lista }}
+    // leer canciones de drive
+    {% endif %}
     var listaRep = [];
     var cancion_i = 0;
     function escuchar(arch) {

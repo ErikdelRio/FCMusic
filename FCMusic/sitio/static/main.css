@@ -6,7 +6,11 @@
   font-size: 1.30em;
 }
 
+.link {
+  text-decoration: none;
+}
 
-.cancion_elem:hover {
+.cancion_elem_hover {
+  background-color: #152C5C;
   cursor: grab;
 }

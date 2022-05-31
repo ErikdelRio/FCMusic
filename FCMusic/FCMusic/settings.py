@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-z2%9cehe5_fc=vov8$gj7*3a5r=mhy1pre7t-e=9dr&l%6u63t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -107,8 +107,12 @@ WSGI_APPLICATION = 'FCMusic.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':BASE_DIR/'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'fcmusic_db',
+        'USER': 'postgres',
+        #'PASSWORD': 'password',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
