@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseNotFound, HttpResponseNotAllowed
+from django.http import HttpResponse,HttpResponseNotFound, HttpResponseNotAllowed, HttpResponseRedirect
 
 from .models import Cancion,Lista_reproduccion,Cancion_lista_reproduccion
 import json
@@ -105,7 +105,9 @@ def drive(request):
 	canciones = conecta_drive()
 	for cancion in canciones:
 		print(cancion)
-	return HttpResponse({status, "success"})
+
+	return HttpResponseRedirect('/home')
+	# return HttpResponse({status, "success"})
 
 
 # Errores

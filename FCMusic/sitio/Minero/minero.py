@@ -20,7 +20,7 @@ def conecta_drive():
 	API_NAME = 'drive'
 	API_VERSION = 'v3'
 	# SCOPES = ['https://www.googleapis.com/auth/drive.metadata']
-	SCOPES = ['https://www.googleapis.com/drive/v2/files/fileId']
+	SCOPES = ['https://www.googleapis.com/auth/drive']
 
 	service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
@@ -29,12 +29,12 @@ def conecta_drive():
 		                            spaces='drive',
 		                            fields='nextPageToken, files(id, name)'
 		                            ).execute()
-	print(folder)
+	#print(folder)
 
 	#folder_id = '1S_sQJqpS0g5-ZNa-ZkWP5cgJJLD5Q7Mh'
 	folder_id = ((folder['files'])[0])['id']
 
-	path = '/home/demian/Documentos/Ingeniería de Software/Pruebas/canciones/'
+	path = 'sitio/Minero/canciones/'
 
 	query = f"parents = '{folder_id}'"
 
@@ -56,7 +56,7 @@ def conecta_drive():
 		id = cancion['id']
 
 		request = service.files().get_media(fileId=id)
-		print(request.to_json())
+		#print(request.to_json())
 
 		fh = io.BytesIO()
 		downloader = MediaIoBaseDownload(fd=fh, request=request, chunksize=35896)
@@ -74,12 +74,12 @@ def conecta_drive():
 		    f.write(fh.read())
 		    f.close()
 
-	arr = os.listdir('canciones/')
+	arr = os.listdir(path)
 	
 	c = []
 	for cancion in arr:
-		#imprime_cancion('canciones/' + cancion)
-		c.append(cancion_dic('canciones/' + cancion))
+		#imprime_cancion(path + cancion)
+		c.append(cancion_dic('sitio/Minero/canciones/' + cancion))
 	return c	
 
 
@@ -102,3 +102,8 @@ def descarga_cancion(id):
     with open(path + cancion['name'], "wb") as f:
         f.write(fh.read())
         f.close()
+
+if __name__ == "__main__":
+	canciones = conecta_drive()
+	for cancion in canciones:
+		print(cancion)
