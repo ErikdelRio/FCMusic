@@ -104,6 +104,8 @@ def index(request):
 def drive(request):
 	canciones = conecta_drive()
 	for cancion in canciones:
+		var = Cancion(titulo=cancion['Título'] , titulo_estilo=cancion['Título'])
+		var.save()
 		print(cancion)
 
 	return HttpResponseRedirect('/home')

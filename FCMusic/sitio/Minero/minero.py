@@ -79,7 +79,8 @@ def conecta_drive():
 	c = []
 	for cancion in arr:
 		#imprime_cancion(path + cancion)
-		c.append(cancion_dic('sitio/Minero/canciones/' + cancion))
+		c.append(cancion_dic(path + cancion))
+		os.remove(path + cancion)
 	return c	
 
 
