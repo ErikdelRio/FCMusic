@@ -24,6 +24,7 @@ class Cancion(models.Model):
 
     genero = models.ManyToManyField(Genero)
 
+    drive_id = models.TextField()
     titulo = models.CharField(max_length = 30)
     titulo_estilo = models.CharField(max_length = 30)
     ruta = models.CharField(max_length = 50)

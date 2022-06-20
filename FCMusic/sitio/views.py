@@ -106,13 +106,26 @@ def putLista(request):
 def index(request):
 	return render(request, 'cancion/index.html')
 
+
+def corta_cadena(cadena, bytes):
+    c = cadena
+    while len(c.encode('utf-8')) > bytes:
+        c = c[:-1]
+    return(c)
+
+
 def drive(request):
 	canciones = conecta_drive()
 	for cancion in canciones:
+
+		if not cancion: # Sí un diccionario es vacío no se guardará
+			continue
+		rola = corta_cadena(cancion['Título'], 30)
+
 		try:
-			Cancion.objects.get(titulo=cancion['Título'] , titulo_estilo=cancion['Título'])
+			Cancion.objects.get(titulo=rola.lower() , titulo_estilo=rola)
 		except:
-			var = Cancion(titulo=cancion['Título'] , titulo_estilo=cancion['Título'])
+			var = Cancion(titulo=rola.lower() , titulo_estilo=rola)
 			var.save()
 		print(cancion)
 
