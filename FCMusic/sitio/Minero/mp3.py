@@ -23,7 +23,10 @@ def cancion_dic(cancion):
         audio = eyed3.load(cancion)
     except IOError:
         return {}
-    if audio.tag is None:
+    try:
+        if audio.tag is None:
+            return {}
+    except AttributeError:
         return {}
     
     titulo = audio.tag.title
