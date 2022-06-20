@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseNotFound, HttpResponseNotAllowed, HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseNotFound, HttpResponseNotAllowed, HttpResponseRedirect,HttpResponseBadRequest
 
 from .models import Cancion,Lista_reproduccion,Cancion_lista_reproduccion
 import json
@@ -38,6 +38,9 @@ def getListasBD(request):
 # Obtiene las canciones a partir de su nombre
 # Regresa una respuesta en json con la lista de las canciones encontradas
 def getCancion(request):
+    if request.method != 'POST':
+        return render(request, 'errores/error400.html')
+
     body = parseRequest(request)
 
     titulo_req = body['titulo']
@@ -47,6 +50,8 @@ def getCancion(request):
     return HttpResponse(json_res)
 
 def getListas(request):
+    if request.method != 'POST':
+        return render(request, 'errores/error400.html')
     listas = getListasBD(request)
     return HttpResponse(listas)
 

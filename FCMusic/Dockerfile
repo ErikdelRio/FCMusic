@@ -6,10 +6,9 @@ FROM python:3.10
 ENV PYTHONUNBUFFERED=1
 
 RUN mkdir /FCMusic
+RUN git clone --branch cancion https://github.com/ErikdelRio/FCMusic.git /app
 
-WORKDIR /FCMusic
-
-ADD . /FCMusic
+WORKDIR /app/FCMusic
 
 RUN pip install -r requirements.txt
 
