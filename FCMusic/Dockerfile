@@ -6,7 +6,7 @@ FROM python:3.10
 ENV PYTHONUNBUFFERED=1
 
 RUN mkdir /FCMusic
-RUN git clone --branch cancion https://github.com/ErikdelRio/FCMusic.git /app
+RUN git clone --branch Demian https://github.com/ErikdelRio/FCMusic.git /app
 
 WORKDIR /app/FCMusic
 
