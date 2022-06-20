@@ -2,3 +2,23 @@ asgiref==3.5.0
 Django==4.0.4
 sqlparse==0.4.2
 psycopg2==2.9.3
+
+-- música
+eyed3==0.9.6
+
+-- Django
+django-allauth==0.50.0
+
+social-auth-app-django==5.0.0
+social-auth-core==4.2.0
+
+-- Google
+gmpy2==2.0.8
+google-api-core==2.7.2
+google-api-python-client==2.45.0
+google-auth==2.6.6
+google-auth-httplib2==0.1.0
+google-auth-oauthlib==0.5.1
+googleapis-common-protos==1.56.0
+
+httplib2==0.20.4
