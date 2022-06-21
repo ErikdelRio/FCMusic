@@ -8,11 +8,16 @@
     android:orientation="vertical"
     android:weightSum="10"
     tools:context=".MusicPlayer">
-
+    <Button
+        android:id="@+id/heartButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="right"
+        android:background="@drawable/heart"></Button>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"
+        android:layout_weight="8"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -31,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </TextView>
+
 
         <ImageView
             android:id="@+id/imageview"
@@ -96,8 +102,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/pause">
-            </Button>
+                android:background="@drawable/pause"></Button>
             <Button
                 android:id="@+id/nextButton"
                 android:layout_toRightOf="@id/forwardButton"
@@ -131,6 +136,7 @@
                 android:layout_toLeftOf="@id/playButton"
                 android:background="@drawable/fast_rewind">
             </Button>
+
 
 
         </RelativeLayout>

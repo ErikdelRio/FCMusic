@@ -30,7 +30,7 @@
 
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/correo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -47,7 +47,7 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/contrasenia"
         android:layout_width="0dp"
         android:textColor="@color/white"
         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintTop_toBottomOf="@+id/correo"
         app:layout_constraintWidth_percent="0.8" />
 
     <Button
@@ -76,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3"
+        app:layout_constraintTop_toBottomOf="@+id/contrasenia"
         app:layout_constraintVertical_bias="0.451"
         app:layout_constraintWidth_percent="0.7" />
 

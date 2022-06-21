@@ -1,14 +1,14 @@
-package com.example.fcmusicapp.ui.home;
+package com.example.fcmusicapp.ui.descargas;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class DescargasViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public DescargasViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
     }

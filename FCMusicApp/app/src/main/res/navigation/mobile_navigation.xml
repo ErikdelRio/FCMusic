@@ -3,23 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_perfil">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.fcmusicapp.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_descargas"
+        android:name="com.example.fcmusicapp.ui.descargas.DescargasFragment"
+        android:label="descargas"
+        tools:layout="@layout/fragment_descargas"
+        android:onClick="plist"/>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.fcmusicapp.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_perfil"
+        android:name="com.example.fcmusicapp.ui.perfil.PerfilFragment"
+        android:label="@string/perfil"
+        tools:layout="@layout/fragment_perfil" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.fcmusicapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_buscador"
+        android:name="com.example.fcmusicapp.ui.buscador.BuscadorFragment"
+        android:label="buscador"
+        tools:layout="@layout/fragment_buscador"
+        />
+
+    <activity
+        android:id="@+id/act_salir"
+        android:name="com.example.fcmusicapp.LogIn"
+        android:label="@string/salir"
+        tools:layout="@layout/activity_log_in" />
+
+    <activity
+        android:id="@+id/act_playlist"
+        android:name="com.example.fcmusicapp.MusicPList"
+        android:label="@string/playlist"
+        tools:layout="@layout/activity_music_p_list" />
 </navigation>

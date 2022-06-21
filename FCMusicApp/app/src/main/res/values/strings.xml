@@ -10,4 +10,11 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="ajustes">ajustes</string>
+    <string name="perfil">Perfil</string>
+    <string name="playlist">playlist</string>
+    <string name="buscar">Buscar</string>
+    <string name="salir">salir</string>
+    <string name="action_favorite">favorite</string>
+    <string name="action_musica">musica</string>
 </resources>

@@ -2,14 +2,17 @@ package com.example.fcmusicapp;
 
 import android.Manifest;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,16 +25,23 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class MusicPList extends AppCompatActivity {
     ListView listView;
-    String[] items;
+    ArrayList<File> mySongs;
+    String busqueda;
+    List<Cancion> songs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_p_list);
         listView=findViewById(R.id.listViewSong);
+        if (getIntent().hasExtra("busqueda")){
+            busqueda = getIntent().getStringExtra("busqueda");
+        }
         runtimePermission();
     }
 
@@ -58,59 +68,78 @@ public class MusicPList extends AppCompatActivity {
     public ArrayList<File> findSong(File file){
         ArrayList<File> arrayList=new ArrayList<>();
         File[] files=file.listFiles();
-        if (files != null){
-        for(File singleFile:files){
-            if(singleFile.isDirectory()&&!singleFile.isHidden()){
-                arrayList.addAll(findSong(singleFile));
-            }
-            else{
-                if(singleFile.getName().endsWith(".mp3")){
-                    arrayList.add(singleFile);
+        DataBaseHelperCancion dbc = new DataBaseHelperCancion(this);
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        if (files != null) {
+            for (File singleFile : files) {
+                if (singleFile.isDirectory() && !singleFile.isHidden()) {
+                    arrayList.addAll(findSong(singleFile));
+                } else {
+                    if (singleFile.getName().endsWith(".mp3")) {
+                        Cancion c = new Cancion();
+                        mmr.setDataSource(singleFile.getPath());
+                        long duration = Long.parseLong(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+                        duration = duration / 1000;
+                        c.setNombre(singleFile.getName().replace(".mp3", ""));
+                        c.setDuracion((int) duration);
+                        arrayList.add(singleFile);
+                        dbc.addOne(c);
+                    }
                 }
             }
         }
+        if(busqueda != null){
+            ArrayList<File> aux = new ArrayList<>();
+            for (File f: arrayList){
+                if (f.getName().toLowerCase(Locale.ROOT).contains(busqueda)){
+                    aux.add(f);
+                }
+            }
+            arrayList = aux;
         }
         return arrayList;
     }
 
-    void displaySongs(){
-        final ArrayList<File> mySongs=findSong(Environment.getExternalStorageDirectory());
-        items=new String[mySongs.size()];
-        for(int i=0;i<mySongs.size();i++){
-            items[i]=mySongs.get(i).getName().replace(".mp3","");
+    public void displaySongs(){
+        mySongs=findSong(Environment.getExternalStorageDirectory());
+        DataBaseHelperCancion bbdC = new DataBaseHelperCancion(this);
+        if(busqueda == null)
+            songs = bbdC.getTodas();
+        else{
+            songs = bbdC.busquedaCancion(busqueda);
         }
-        /*ArrayAdapter<String> myAdapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,items);
-        listView.setAdapter(myAdapter);*/
+
         customAdapter customAdapter=new customAdapter();
         listView.setAdapter(customAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView,View view,int i,long l){
-                String songName=(String) listView.getItemAtPosition(i);
+                Cancion c=(Cancion) listView.getItemAtPosition(i);
                 startActivity(new Intent(getApplicationContext(),MusicPlayer.class)
                         .putExtra("songs",mySongs)
-                        .putExtra("songname",songName)
+                        .putExtra("songname",c.getNombre())
                         .putExtra("pos",i));
             }
         });
+
     }
 
     class customAdapter extends BaseAdapter{
 
         @Override
         public int getCount() {
-            return items.length;
+            return songs.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return null;
+            return songs.get(i);
         }
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return songs.get(i).getId();
         }
 
         @Override
@@ -118,8 +147,9 @@ public class MusicPList extends AppCompatActivity {
             View myView=getLayoutInflater().inflate(R.layout.list_item,null);
             TextView textSong= myView.findViewById(R.id.txtSongName);
             textSong.setSelected(true);
-            textSong.setText(items[i]);
+            textSong.setText(songs.get(i).getNombre());
             return myView;
         }
     }
+
 }
