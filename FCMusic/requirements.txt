@@ -16,7 +16,6 @@ social-auth-app-django==5.0.0
 social-auth-core==4.2.0
 
 -- Google
-gmpy2==2.1.0rc1
 google-api-core==2.7.2
 google-api-python-client==2.45.0
 google-auth==2.6.6
