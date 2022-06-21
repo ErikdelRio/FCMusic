@@ -2,13 +2,14 @@
 
 FROM python:3.11-rc
 
+
 # Python output to terminal without bufferint first
 ENV PYTHONUNBUFFERED=1
 
 RUN mkdir /FCMusic
 RUN git clone https://github.com/ErikdelRio/FCMusic.git /app
-
 WORKDIR /app/FCMusic
+
 
 RUN apt -y update
 RUN apt-get -y install libgmp-dev libmpfr-dev libmpc-dev

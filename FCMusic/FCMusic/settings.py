@@ -94,24 +94,13 @@ WSGI_APPLICATION = 'FCMusic.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'fcmusic_db',
-#         'USER': 'postgres',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'fcmusic_db',
         'USER': 'postgres',
-        'PASSWORD': '11734601',
-        'HOST': 'localhost',
+        'PASSWORD': '',
+        'HOST': 'db',
         'PORT': 5432,
     }
 }

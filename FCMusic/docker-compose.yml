@@ -3,8 +3,7 @@ version: '3.9'
 services:
   web:
     build: .
-    # command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py makemigrations && python manage.py migrate && python manage.py runserver_plus --cert cert.pem --key key.pem 0.0.0.0:8000'
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; pip install Werkzeug django_extensions pyOpenSSL && python3.9 manage.py runserver_plus --cert cert.pem --key key.pem 0.0.0.0:8000'
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py makemigrations && python manage.py migrate && python manage.py runserver_plus --cert cert.pem --key key.pem --keep-meta-shutdown 0.0.0.0:8000'
     container_name: music_service
     volumes:
       - .:/FCMusic
