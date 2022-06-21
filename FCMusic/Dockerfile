@@ -1,6 +1,6 @@
 # Tutorial de https://medium.com/backticks-tildes/how-to-dockerize-a-django-application-a42df0cb0a99
 
-FROM python:3.9
+FROM python:3.11-rc
 
 # Python output to terminal without bufferint first
 ENV PYTHONUNBUFFERED=1
